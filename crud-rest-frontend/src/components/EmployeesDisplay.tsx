@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { styled } from '@mui/material/styles';
 
 import Grid from '@mui/material/Grid';
@@ -8,7 +8,6 @@ import { Toolbar } from "@mui/material";
 import EmployeeCard from "./EmployeeCard";
 
 const maxDisplayPerPage: number = 10;
-let currentPage: number = 0;
 
 const EmployeeGridLayout = styled(Grid)({
   justifyContent: "center",
@@ -29,7 +28,7 @@ const employeeList = [
 ]
 
 
-for(let i = 2; i <= 17; ++i) {
+for(let i = 2; i <= 169; ++i) {
   employeeList.push(
     {
       name: 'Test' + i,
@@ -39,9 +38,12 @@ for(let i = 2; i <= 17; ++i) {
   )
 }
 
-let displayArr = employeeList.slice(currentPage * maxDisplayPerPage, (currentPage+1) * maxDisplayPerPage);
+
   
 export default function EmployeesDisplay(){
+  const [currentPage, setPage] = useState(0);
+  let displayArr = employeeList.slice(currentPage * maxDisplayPerPage, (currentPage+1) * maxDisplayPerPage);
+
   return <Box sx={{ width: '70%', margin: '3% auto 0 auto' }}>
   <EmployeeGridLayout container spacing={5}>
   {
@@ -60,9 +62,9 @@ export default function EmployeesDisplay(){
     Showing <b>{currentPage*maxDisplayPerPage+1}-{Math.min((currentPage+1)*maxDisplayPerPage, employeeList.length)}</b> out of <b>{employeeList.length}</b> entries
     </div>
     <div>
-      <button />
+      <button onClick={()=>setPage(Math.max(0, currentPage - 1))}>Previous</button>
       {currentPage+1}
-      <button />
+      <button onClick={()=>setPage(Math.min(currentPage + 1, Math.floor((employeeList.length-1)/maxDisplayPerPage)))}>Next</button>
     </div>
   </Toolbar>
 </Box>;
