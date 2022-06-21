@@ -1,8 +1,9 @@
 import React from "react";
 import { styled } from '@mui/material/styles';
+import { Link } from "react-router-dom";
+
 import { Button } from "@mui/material";
 import AddCircleIcon from '@mui/icons-material/AddCircle';
-
 
 const AddEmployeeBtnStyle = styled(Button)({
     backgroundColor: 'green',
@@ -16,5 +17,7 @@ const AddEmployeeBtnStyle = styled(Button)({
   });
 
 export default function AddEmployeeBtn() {
-    return <AddEmployeeBtnStyle onClick={()=>{alert("hehe add employee");}}startIcon={<AddCircleIcon />}>Add Employee</AddEmployeeBtnStyle>;
+    return <Link to="/AddEmployee" style={{display: 'flex', justifyContent:'center'}}>
+          <AddEmployeeBtnStyle startIcon={<AddCircleIcon />}>Add Employee</AddEmployeeBtnStyle>
+        </Link>
 }

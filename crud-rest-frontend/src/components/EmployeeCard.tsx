@@ -8,7 +8,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 
 const EmployeeCardStyle = styled(Card)({
     width: '80%',
-    backgroundColor: 'lightgray',
+    backgroundColor: '#EAEAEA',
     padding: '10px 10px 10px 20px',
     borderRadius: '10px',
     display: 'flex',
@@ -18,11 +18,11 @@ const EmployeeCardStyle = styled(Card)({
 const EmployeeNameDisplay = styled('div')({
   fontWeight: 'bold',
   fontSize: '30px',
-  color: 'navy'
+  color: '#365271'
 })
 const EmployeeOthersDisplay = styled('div')({
   fontSize: '20px',
-  color: 'navy'
+  color: '#365271'
 })
 const ButtonsContainer = styled('div')({
   display: 'flex',
@@ -38,10 +38,10 @@ export default function EmployeeCard(props: any) {
       </div>
       <ButtonsContainer>
         <IconButton onClick={()=>{ alert("hehe edit"); }}>
-          <EditIcon style={{color:"darkorange"}}/>
+          <EditIcon style={{color:"#FFC32E"}}/>
         </IconButton>
         <IconButton onClick={()=>{ alert("hehe delete"); }}>
-          <DeleteIcon style={{color:"red"}}/>
+          <DeleteIcon style={{color:"#E50000"}}/>
         </IconButton>
       </ButtonsContainer>
     </EmployeeCardStyle>;
