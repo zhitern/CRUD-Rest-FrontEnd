@@ -1,33 +1,32 @@
 import React from 'react';
 import { styled } from '@mui/material/styles';
 
-import AppBar from '@mui/material/AppBar'
 import { Toolbar, Typography } from '@mui/material';
 
 import AddEmployeeBtn from './components/AddEmployeeBtn';
-import EmployeeCard from './components/EmployeeCard';
 import EmployeesDisplay from './components/EmployeesDisplay';
 
-const HeaderBar = styled(AppBar)({
+const HeaderBar = styled(Toolbar)({
   backgroundColor: 'navy',
-  padding: 8,
-  borderRadius: 4,
+  padding: '16 8 8 8',
   fontWeight: 'bold',
   fontSize: '40px',
   color: 'white',
   position: 'static'
 });
 
+const HeaderTitle = styled(Typography)({
+  fontWeight: "bold"
+})
+
 function MainPage() {
   return (
     <div>
       <HeaderBar>
-        <Toolbar>
-            <Typography variant="h4" component="div" sx={{ flexGrow: 1 }}>
-              Employees
-            </Typography>
-            <AddEmployeeBtn />
-          </Toolbar>
+          <HeaderTitle variant="h4" sx={{ flexGrow: 1 }}>
+            Employees
+          </HeaderTitle>
+          <AddEmployeeBtn />
       </HeaderBar>
 
       <EmployeesDisplay />

@@ -2,18 +2,47 @@ import React from "react";
 import { styled } from '@mui/material/styles';
 
 import { Card } from "@mui/material";
+import IconButton from '@mui/material/IconButton';
+import EditIcon from '@mui/icons-material/Edit';
+import DeleteIcon from '@mui/icons-material/Delete';
 
 const EmployeeCardStyle = styled(Card)({
     width: '80%',
     backgroundColor: 'lightgray',
-    padding: '0px 0px 0px 20px',
-    borderRadius: '10px'
+    padding: '10px 10px 10px 20px',
+    borderRadius: '10px',
+    display: 'flex',
+    justifyContent: 'space-between'
   });
+
+const EmployeeNameDisplay = styled('div')({
+  fontWeight: 'bold',
+  fontSize: '30px',
+  color: 'navy'
+})
+const EmployeeOthersDisplay = styled('div')({
+  fontSize: '20px',
+  color: 'navy'
+})
+const ButtonsContainer = styled('div')({
+  display: 'flex',
+  margin: 'auto 0 auto 0'
+})
 
 export default function EmployeeCard(props: any) {
     return <EmployeeCardStyle>
-        <h3>{props.name}</h3>
-        <h4>{props.department}</h4>
-        <h4>{props.salary}</h4>
-        </EmployeeCardStyle>;
+      <div>
+        <EmployeeNameDisplay>{props.name}</EmployeeNameDisplay>
+        <EmployeeOthersDisplay>{props.department}</EmployeeOthersDisplay>
+        <EmployeeOthersDisplay>{props.salary}</EmployeeOthersDisplay>
+      </div>
+      <ButtonsContainer>
+        <IconButton onClick={()=>{ alert("hehe edit"); }}>
+          <EditIcon style={{color:"darkorange"}}/>
+        </IconButton>
+        <IconButton onClick={()=>{ alert("hehe delete"); }}>
+          <DeleteIcon style={{color:"red"}}/>
+        </IconButton>
+      </ButtonsContainer>
+    </EmployeeCardStyle>;
 }
