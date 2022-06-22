@@ -20,15 +20,19 @@ const EmployeeFormStyle = styled(Card)({
 export default function EmployeeForm(props: any) {
   const { id } = useParams();
 
-    return <EmployeeFormStyle>
-      <h1 style={{textAlign:'center'}}>Employee Form</h1>
-      <TextField value={id} label="Name" variant='filled' />
+  return <EmployeeFormStyle>
+    <h1 style={{textAlign:'center'}}>Employee Form</h1>
+    <TextField value={id} label="Name" variant='filled' />
 
-      <TextField inputProps={{ inputMode: 'numeric', pattern: '[0-9]*' }} label="Salary" variant='filled' />
+    <TextField inputProps={{ inputMode: 'numeric', pattern: '[0-9]*' }} label="Salary" variant='filled' />
 
-      <TextField label="Department" variant='filled' />
+    <TextField label="Department" variant='filled' />
 
-      <Button style={{backgroundColor: 'green', color:'white'}}>Add Employee</Button>
+    <Button style={{backgroundColor: 'green', color:'white'}}>
+    {
+      ((id === undefined) ? "Add Employee" : "Update Employee")
+    }
+    </Button>
 
-    </EmployeeFormStyle>;
+  </EmployeeFormStyle>;
 }

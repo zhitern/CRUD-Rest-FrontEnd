@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { styled } from '@mui/material/styles';
 
 import Grid from '@mui/material/Grid';
@@ -6,6 +6,9 @@ import Box from '@mui/material/Box'
 import { Toolbar, Button } from "@mui/material";
 
 import EmployeeCard from "./EmployeeCard";
+import {employeeAPI} from "../EmployeeAPI";
+import { ConstructionRounded } from "@mui/icons-material";
+import { json } from "stream/consumers";
 
 const maxDisplayPerPage: number = 10;
 
@@ -24,53 +27,53 @@ const PaginationContainer = styled('div')({
   width: '200px'
 })
 
-const employeeList = [
-  {
-    id: 1,
-    name: 'Test1',
-    salary: '2000',
-    department: 'HR'
-  }
-]
-
-
-for(let i = 2; i <= 58; ++i) {
-  employeeList.push(
-    {
-      id: i,
-      name: 'Test' + i,
-      salary: '3000',
-      department: 'HR'
-    }
-  )
-}
-
 function Clamp(value: number, min: number, max: number) {
   return Math.min(Math.max(value, min), max);
 };
+
+interface EmployeeType {
+  id: number,
+  name: string,
+  salary: number,
+  department: string
+}
   
 export default function EmployeesDisplay(){
   const [currentPage, setPage] = useState(0);
-  const [maxPage] = useState((employeeList.length-1)/maxDisplayPerPage);
+  const [employeeList, setEmployeeList] = useState<EmployeeType[]>([]);
+  const maxPage = (employeeList.length-1)/maxDisplayPerPage;
   let displayArr = employeeList.slice(currentPage * maxDisplayPerPage, (currentPage+1) * maxDisplayPerPage);
+
+  useEffect(()=>{
+    employeeAPI.get('/').then((res)=>{
+      console.log("Response received: " + res.data);
+      setEmployeeList(res.data);
+    }).catch((err)=>{
+      console.log("ERROR ERROR: " + err.message);
+    })
+  }, [])
 
   function FlipPage(flipAmount: number){
     setPage(Clamp(currentPage + flipAmount, 0, Math.floor((employeeList.length-1)/maxDisplayPerPage)));
   }
 
   return <Box sx={{ width: '70%', margin: '3% auto 0 auto' }}>
+  <Button onClick={()=>{
+    employeeList.pop();
+    }}>POP AN EMPLOYEE</Button>
   <EmployeeGridLayout container spacing={5}>
   {
     displayArr.map((employee, index) =>
-    <EmployeeGrid item xs={12} md={6}>
-    <EmployeeCard 
-      id={employee.id}
-      name={employee.name} 
-      salary={employee.salary} 
-      department={employee.department}
-      />
-    </EmployeeGrid>
-  )}
+      <EmployeeGrid item xs={12} md={6}>
+      <EmployeeCard 
+        id={employee.id}
+        name={employee.name} 
+        salary={employee.salary} 
+        department={employee.department}
+        />
+      </EmployeeGrid>
+    )
+  }
   </EmployeeGridLayout>
   <Toolbar style={{justifyContent:'space-between'}}>
     <div>
