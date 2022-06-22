@@ -1,5 +1,6 @@
 import React from "react";
 import { styled } from '@mui/material/styles';
+import { useParams } from 'react-router';
 
 import { Card } from "@mui/material";
 import { TextField } from '@mui/material'
@@ -16,10 +17,12 @@ const EmployeeFormStyle = styled(Card)({
     justifyContent: 'space-between',
   });
 
-export default function EmployeeForm() {
+export default function EmployeeForm(props: any) {
+  const { id } = useParams();
+
     return <EmployeeFormStyle>
       <h1 style={{textAlign:'center'}}>Employee Form</h1>
-      <TextField label="Name" variant='filled' />
+      <TextField value={id} label="Name" variant='filled' />
 
       <TextField inputProps={{ inputMode: 'numeric', pattern: '[0-9]*' }} label="Salary" variant='filled' />
 

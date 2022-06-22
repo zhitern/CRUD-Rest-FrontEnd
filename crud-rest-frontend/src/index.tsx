@@ -17,6 +17,7 @@ root.render(
     <Routes>
       <Route path="/" element={<MainPage />} />
       <Route path="AddEmployee" element={<AddEmployeePage />} />
+      <Route path="AddEmployee/:id" element={<AddEmployeePage />} />
     </Routes>
   </BrowserRouter>
 );

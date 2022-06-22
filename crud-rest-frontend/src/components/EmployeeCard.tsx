@@ -1,5 +1,6 @@
 import React from "react";
 import { styled } from '@mui/material/styles';
+import { Link, Path } from "react-router-dom";
 
 import { Card } from "@mui/material";
 import IconButton from '@mui/material/IconButton';
@@ -30,19 +31,24 @@ const ButtonsContainer = styled('div')({
 })
 
 export default function EmployeeCard(props: any) {
-    return <EmployeeCardStyle>
-      <div>
-        <EmployeeNameDisplay>{props.name}</EmployeeNameDisplay>
-        <EmployeeOthersDisplay>{props.department}</EmployeeOthersDisplay>
-        <EmployeeOthersDisplay>{props.salary}</EmployeeOthersDisplay>
-      </div>
-      <ButtonsContainer>
-        <IconButton onClick={()=>{ alert("hehe edit"); }}>
-          <EditIcon style={{color:"#FFC32E"}}/>
+  const link = "/AddEmployee/" + props.id
+
+  return <EmployeeCardStyle>
+    <div>
+      <EmployeeNameDisplay>{props.name}</EmployeeNameDisplay>
+      <EmployeeOthersDisplay>{props.department}</EmployeeOthersDisplay>
+      <EmployeeOthersDisplay>${props.salary}</EmployeeOthersDisplay>
+    </div>
+    <ButtonsContainer>
+      <Link to={link} style={{display: 'flex', justifyContent:'center'}}>
+          <IconButton>
+            <EditIcon style={{color:"#FFC32E"}}/>
         </IconButton>
-        <IconButton onClick={()=>{ alert("hehe delete"); }}>
-          <DeleteIcon style={{color:"#E50000"}}/>
-        </IconButton>
-      </ButtonsContainer>
-    </EmployeeCardStyle>;
+      </Link>
+        
+      <IconButton onClick={()=>{ alert("hehe delete"); }}>
+        <DeleteIcon style={{color:"#E50000"}}/>
+      </IconButton>
+    </ButtonsContainer>
+  </EmployeeCardStyle>;
 }
