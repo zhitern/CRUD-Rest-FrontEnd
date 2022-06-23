@@ -37,27 +37,30 @@ export default function EmployeeForm(props: any) {
     }
   }, [])
 
-  async function SubmitForm() {
-    if (id === undefined)
-      return;
-
+  function SubmitForm() {
     const data = {
-      id: parseInt(id),
+      id: -1,
       name: name,
       salary: parseInt(salary),
       department: department
     }
 
     if (isAdding) {
-      await EmployeeDb.GetInstance().Add(data);
+      EmployeeDb.GetInstance().Add(data).catch((err)=>{
+        console.log(err.message);
+        alert(err.message);
+      });
     }
-    else {
-      await EmployeeDb.GetInstance().Edit(data);
+    else if (id !== undefined) {//is editting
+      EmployeeDb.GetInstance().Edit(data).catch((err)=>{
+        console.log(err.message);
+        alert(err.message);
+      });
     }
 
     setName("");
-        setSalary("");
-        setDepartment("");
+    setSalary("");
+    setDepartment("");
   }
 
   return <EmployeeFormStyle>

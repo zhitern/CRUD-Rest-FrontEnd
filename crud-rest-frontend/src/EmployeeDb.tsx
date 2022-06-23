@@ -51,15 +51,14 @@ export class EmployeeDb {
         });
     }
     public Edit(data: EmployeeType) {
-        employeeAPI.patch('/' + data.id, data).then((res)=>{
+        return employeeAPI.patch('/' + data.id, data).then((res)=>{
             console.log("successfully updated " + data.name)
         }).catch((err)=>{
             console.log(err.message);
         });
     }
     public Delete(id: number) {
-        console.log("id to delete " + id);
-        employeeAPI.delete('/' + id).then((res)=>{
+        return employeeAPI.delete('/' + id).then((res)=>{
             console.log("successfully deleted id " + id)
         }).catch((err)=>{
             console.log(err.message);
