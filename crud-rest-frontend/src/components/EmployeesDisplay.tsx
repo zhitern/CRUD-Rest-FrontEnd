@@ -6,9 +6,7 @@ import Box from '@mui/material/Box'
 import { Toolbar, Button } from "@mui/material";
 
 import EmployeeCard from "./EmployeeCard";
-import {employeeAPI} from "../EmployeeAPI";
-import { ConstructionRounded } from "@mui/icons-material";
-import { json } from "stream/consumers";
+import { EmployeeDb, EmployeeType } from "../EmployeeDb";
 
 const maxDisplayPerPage: number = 10;
 
@@ -30,13 +28,6 @@ const PaginationContainer = styled('div')({
 function Clamp(value: number, min: number, max: number) {
   return Math.min(Math.max(value, min), max);
 };
-
-interface EmployeeType {
-  id: number,
-  name: string,
-  salary: number,
-  department: string
-}
   
 export default function EmployeesDisplay(){
   const [currentPage, setPage] = useState(0);
@@ -44,13 +35,10 @@ export default function EmployeesDisplay(){
   const maxPage = (employeeList.length-1)/maxDisplayPerPage;
   let displayArr = employeeList.slice(currentPage * maxDisplayPerPage, (currentPage+1) * maxDisplayPerPage);
 
-  useEffect(()=>{
-    employeeAPI.get('/').then((res)=>{
-      console.log("Response received: " + res.data);
-      setEmployeeList(res.data);
-    }).catch((err)=>{
-      console.log("ERROR ERROR: " + err.message);
-    })
+  useEffect(() =>{
+    EmployeeDb.GetInstance().RefreshDb().then(()=>{
+      setEmployeeList(EmployeeDb.GetInstance().data);
+    });  
   }, [])
 
   function FlipPage(flipAmount: number){
@@ -58,17 +46,14 @@ export default function EmployeesDisplay(){
   }
 
   return <Box sx={{ width: '70%', margin: '3% auto 0 auto' }}>
-  <Button onClick={()=>{
-    employeeList.pop();
-    }}>POP AN EMPLOYEE</Button>
   <EmployeeGridLayout container spacing={5}>
   {
     displayArr.map((employee, index) =>
       <EmployeeGrid item xs={12} md={6}>
       <EmployeeCard 
         id={employee.id}
-        name={employee.name} 
-        salary={employee.salary} 
+        name={employee.name}
+        salary={employee.salary}
         department={employee.department}
         />
       </EmployeeGrid>

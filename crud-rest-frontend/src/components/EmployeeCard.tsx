@@ -6,6 +6,7 @@ import { Card } from "@mui/material";
 import IconButton from '@mui/material/IconButton';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
+import { EmployeeDb } from "../EmployeeDb";
 
 const EmployeeCardStyle = styled(Card)({
     width: '80%',
@@ -31,7 +32,7 @@ const ButtonsContainer = styled('div')({
 })
 
 export default function EmployeeCard(props: any) {
-  const link = "/AddEmployee/" + props.id
+  const link = "/AddEmployee/" + props.id;
 
   return <EmployeeCardStyle>
     <div>
@@ -46,7 +47,7 @@ export default function EmployeeCard(props: any) {
         </IconButton>
       </Link>
         
-      <IconButton onClick={()=>{ alert("hehe delete"); }}>
+      <IconButton onClick={()=>{ EmployeeDb.GetInstance().Delete(props.id); }}>
         <DeleteIcon style={{color:"#E50000"}}/>
       </IconButton>
     </ButtonsContainer>
