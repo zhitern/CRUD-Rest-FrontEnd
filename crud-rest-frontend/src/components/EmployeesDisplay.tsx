@@ -37,10 +37,14 @@ export default function EmployeesDisplay(){
   let displayArr = employeeList.slice(currentPage * maxDisplayPerPage, (currentPage+1) * maxDisplayPerPage);
 
   useEffect(() =>{
+    refreshDatabase();  
+  }, [])
+
+  const refreshDatabase = () => {
     EmployeeDb.GetInstance().RefreshDb().then(()=>{
       setEmployeeList(EmployeeDb.GetInstance().data);
     });  
-  }, [])
+  }
 
   function FlipPage(flipAmount: number){
     setPage(Clamp(currentPage + flipAmount, 0, Math.floor((employeeList.length-1)/maxDisplayPerPage)));
@@ -56,6 +60,7 @@ export default function EmployeesDisplay(){
         name={employee.name}
         salary={employee.salary}
         department={employee.department}
+        onDbModified={refreshDatabase}
         />
       </EmployeeGrid>
     )

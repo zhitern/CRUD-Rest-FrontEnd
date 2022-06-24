@@ -49,15 +49,18 @@ export default function EmployeeForm(props: any) {
       EmployeeDb.GetInstance().Add(data).catch((err)=>{
         console.log(err.message);
         alert(err.message);
+        return;
       });
     }
     else if (id !== undefined) {//is editting
       EmployeeDb.GetInstance().Edit(data).catch((err)=>{
         console.log(err.message);
         alert(err.message);
+        return;
       });
     }
 
+    alert("Created Successfully")
     setName("");
     setSalary("");
     setDepartment("");

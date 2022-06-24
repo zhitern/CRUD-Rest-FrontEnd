@@ -53,7 +53,7 @@ const ConfirmationBoxBtnContainer = styled('div')({
   margin :'50px auto auto auto'
 })
 
-export default function EmployeeCard(props: any) {
+export default function EmployeeCard(props: any) { 
   const link = "/AddEmployee/" + props.id;
 
   const [open, setOpen] = React.useState(false);
@@ -62,11 +62,14 @@ export default function EmployeeCard(props: any) {
 
   function DeleteThisEmployee() {
     EmployeeDb.GetInstance().Delete(props.id).then(()=>{
+      props.onDbModified();
+      alert("Deleted Successfully");
+      props.onDbModified();
       handleClose();
     }).catch((err)=>{
       console.log(err.message);
       alert(err.message);
-    })
+    });
   }
 
   return <EmployeeCardStyle>
