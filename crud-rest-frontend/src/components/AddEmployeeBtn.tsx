@@ -3,6 +3,7 @@ import { styled } from '@mui/material/styles';
 import { Link } from "react-router-dom";
 
 import { Button } from "@mui/material";
+import Typography from "@mui/material/Typography";
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 
 const AddEmployeeBtnStyle = styled(Button)({
@@ -18,6 +19,8 @@ const AddEmployeeBtnStyle = styled(Button)({
 
 export default function AddEmployeeBtn() {
     return <Link to="/AddEmployee" style={{display: 'flex', justifyContent:'center'}}>
-          <AddEmployeeBtnStyle startIcon={<AddCircleIcon />}>Add Employee</AddEmployeeBtnStyle>
+          <AddEmployeeBtnStyle startIcon={<AddCircleIcon />}>
+            <Typography sx={{display: {xs: 'none', md:'inline'}}}>Add Employee</Typography>
+          </AddEmployeeBtnStyle>
         </Link>
 }
