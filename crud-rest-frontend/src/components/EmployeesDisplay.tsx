@@ -22,6 +22,7 @@ const EmployeeGrid = styled(Grid)({
 const PaginationContainer = styled('div')({
   display: 'flex',
   justifyContent: 'space-between',
+  alignItems: 'baseline',
   width: '200px'
 })
 
@@ -60,10 +61,7 @@ export default function EmployeesDisplay(){
     )
   }
   </EmployeeGridLayout>
-  <Toolbar style={{justifyContent:'space-between'}}>
-    <div>
-    Showing <b>{currentPage*maxDisplayPerPage+1}-{Math.min((currentPage+1)*maxDisplayPerPage, employeeList.length)}</b> out of <b>{employeeList.length}</b> entries
-    </div>
+  <Toolbar style={{justifyContent:'space-between', flexDirection:'row-reverse'}}>
     {
       employeeList.length > maxDisplayPerPage &&
       <PaginationContainer>
@@ -74,6 +72,9 @@ export default function EmployeesDisplay(){
         
       </PaginationContainer>
     }
+    <Box sx={{display: {xs: 'none', md: 'block'}}}>
+    Showing <b>{currentPage*maxDisplayPerPage+1}-{Math.min((currentPage+1)*maxDisplayPerPage, employeeList.length)}</b> out of <b>{employeeList.length}</b> entries
+    </Box>
   </Toolbar>
 </Box>;
 }
