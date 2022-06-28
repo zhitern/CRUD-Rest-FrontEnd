@@ -8,24 +8,24 @@ export interface EmployeeType {
     department: string
   }
 
-export class EmployeeDb {
-    private static _instance: EmployeeDb;
+export class EmployeeAPI {
+    private static _instance: EmployeeAPI;
     private _data: EmployeeType[];
 
     private constructor(){
         this._data = [];
     }
-    public static GetInstance(): EmployeeDb {
-        if (!EmployeeDb._instance) {
-            EmployeeDb._instance = new EmployeeDb();
+    public static GetInstance(): EmployeeAPI {
+        if (!EmployeeAPI._instance) {
+            EmployeeAPI._instance = new EmployeeAPI();
         }
 
-        return EmployeeDb._instance;
+        return EmployeeAPI._instance;
     }
 
     public async RefreshDb(){
         return employeeAPI.get('/').then((res)=>{
-            console.log("Refreshed EmployeeDb");
+            console.log("Refreshed Employee Database");
             this._data = res.data;
           }).catch((err)=>{
             console.log("Error reading from database: " + err.message);

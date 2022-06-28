@@ -5,7 +5,7 @@ import { useParams } from 'react-router';
 import { Card } from "@mui/material";
 import { TextField } from '@mui/material'
 import { Button } from "@mui/material";
-import { EmployeeDb } from "../EmployeeDb";
+import { EmployeeAPI } from "../APIs/EmployeeAPI";
 
 const EmployeeFormStyle = styled(Card)({
     width: '100%',
@@ -28,7 +28,7 @@ export default function EmployeeForm(props: any) {
 
   useEffect(()=>{
     if (!isAdding && id !== undefined) {
-      const employee = EmployeeDb.GetInstance().Find(parseInt(id));
+      const employee = EmployeeAPI.GetInstance().Find(parseInt(id));
       if (employee) {
         setName(employee.name);
         setSalary(employee.salary.toString());
@@ -46,14 +46,14 @@ export default function EmployeeForm(props: any) {
     }
 
     if (isAdding) {
-      EmployeeDb.GetInstance().Add(data).catch((err)=>{
+      EmployeeAPI.GetInstance().Add(data).catch((err)=>{
         console.log(err.message);
         alert(err.message);
         return;
       });
     }
     else if (id !== undefined) {//is editting
-      EmployeeDb.GetInstance().Edit(data).catch((err)=>{
+      EmployeeAPI.GetInstance().Edit(data).catch((err)=>{
         console.log(err.message);
         alert(err.message);
         return;

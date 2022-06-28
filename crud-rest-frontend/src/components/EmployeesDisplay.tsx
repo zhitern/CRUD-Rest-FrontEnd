@@ -6,7 +6,7 @@ import Box from '@mui/material/Box'
 import { Toolbar, Button } from "@mui/material";
 
 import EmployeeCard from "./EmployeeCard";
-import { EmployeeDb, EmployeeType } from "../EmployeeDb";
+import { EmployeeAPI, EmployeeType } from "../APIs/EmployeeAPI";
 
 const maxDisplayPerPage: number = 10;
 
@@ -31,9 +31,9 @@ function Clamp(value: number, min: number, max: number) {
 };
   
 export default function EmployeesDisplay(){
-  const [currentPage, setPage] = useState(0);
   const [employeeList, setEmployeeList] = useState<EmployeeType[]>([]);
-  const maxPage = (employeeList.length-1)/maxDisplayPerPage;
+  const [currentPage, setCurrentPage] = useState(0);
+  const [maxPage, setMaxPage] = useState(0);
   let displayArr = employeeList.slice(currentPage * maxDisplayPerPage, (currentPage+1) * maxDisplayPerPage);
 
   useEffect(() =>{
@@ -41,13 +41,20 @@ export default function EmployeesDisplay(){
   }, [])
 
   const refreshDatabase = () => {
-    EmployeeDb.GetInstance().RefreshDb().then(()=>{
-      setEmployeeList(EmployeeDb.GetInstance().data);
+    EmployeeAPI.GetInstance().RefreshDb().then(()=>{
+      setEmployeeList(EmployeeAPI.GetInstance().data);
     });  
   }
 
+  useEffect(() => {
+    setMaxPage(Math.floor((employeeList.length-1)/maxDisplayPerPage));
+    if (currentPage >= maxPage) {
+      setCurrentPage(Math.max(0, maxPage - 1));
+    }
+  }, [employeeList])
+
   function FlipPage(flipAmount: number){
-    setPage(Clamp(currentPage + flipAmount, 0, Math.floor((employeeList.length-1)/maxDisplayPerPage)));
+    setCurrentPage(Clamp(currentPage + flipAmount, 0, maxPage));
   }
 
   return <Box sx={{ width: '70%', margin: '3% auto 0 auto' }}>
@@ -73,7 +80,7 @@ export default function EmployeesDisplay(){
         
         <Button disabled={currentPage<=0} onClick={()=>FlipPage(-1)}>Previous</Button>
         <b>{currentPage+1}</b>
-        <Button disabled={currentPage>maxPage-1}onClick={()=>FlipPage(1)}>Next</Button>
+        <Button disabled={currentPage>=maxPage}onClick={()=>FlipPage(1)}>Next</Button>
         
       </PaginationContainer>
     }

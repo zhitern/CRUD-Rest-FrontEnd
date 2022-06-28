@@ -11,7 +11,7 @@ import IconButton from '@mui/material/IconButton';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 
-import { EmployeeDb } from "../EmployeeDb";
+import { EmployeeAPI } from "../APIs/EmployeeAPI";
 
 const EmployeeCardStyle = styled(Card)({
     width: '80%',
@@ -60,8 +60,11 @@ export default function EmployeeCard(props: any) {
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
+  // const count = useAppSelector(state => state.counter.value)
+  // const dispatch = useAppDispatch()
+
   function DeleteThisEmployee() {
-    EmployeeDb.GetInstance().Delete(props.id).then(()=>{
+    EmployeeAPI.GetInstance().Delete(props.id).then(()=>{
       props.onDbModified();
       alert("Deleted Successfully");
       props.onDbModified();
