@@ -5,7 +5,9 @@ import { useParams } from 'react-router';
 import { Card } from "@mui/material";
 import { TextField } from '@mui/material'
 import { Button } from "@mui/material";
-import { EmployeeAPI } from "../APIs/EmployeeAPI";
+
+import { useAppDispatch, useAppSelector } from "../store/hooks";
+import { addEmployee, getEmployee, EmployeeType, editEmployee } from "../store/employeeAPISlice";
 
 const EmployeeFormStyle = styled(Card)({
     width: '100%',
@@ -20,22 +22,28 @@ const EmployeeFormStyle = styled(Card)({
 
 export default function EmployeeForm(props: any) {
   const { id } = useParams();
-  const isAdding: boolean = id === undefined;
+  const dispatch = useAppDispatch();
+  const [isAdding, setIsAdding] = useState(id === undefined);
 
   const [name, setName] = useState("");
   const [salary, setSalary] = useState("");
   const [department, setDepartment] = useState("");
+  const foundEmployee: EmployeeType = useAppSelector(state => state.employeeAPI.foundEmployee);
 
   useEffect(()=>{
     if (!isAdding && id !== undefined) {
-      const employee = EmployeeAPI.GetInstance().Find(parseInt(id));
-      if (employee) {
-        setName(employee.name);
-        setSalary(employee.salary.toString());
-        setDepartment(employee.department);
-      }
+      dispatch(getEmployee(parseInt(id)));
     }
   }, [])
+
+  useEffect(()=>{
+    if (!isAdding && Object.keys(foundEmployee).length > 0){
+      setName(foundEmployee.name);
+      setSalary(foundEmployee.salary.toString());
+      setDepartment(foundEmployee.department);
+    }
+    
+  }, [isAdding, foundEmployee])
 
   function SubmitForm() {
     const data = {
@@ -46,21 +54,16 @@ export default function EmployeeForm(props: any) {
     }
 
     if (isAdding) {
-      EmployeeAPI.GetInstance().Add(data).catch((err)=>{
-        console.log(err.message);
-        alert(err.message);
-        return;
-      });
+      dispatch(addEmployee(data));
+      alert("Created Successfully");
     }
     else if (id !== undefined) {//is editting
-      EmployeeAPI.GetInstance().Edit(data).catch((err)=>{
-        console.log(err.message);
-        alert(err.message);
-        return;
-      });
+      data.id = parseInt(id);
+      dispatch(editEmployee(data));
+      alert("Editted Successfully");
     }
 
-    alert("Created Successfully")
+    setIsAdding(true);
     setName("");
     setSalary("");
     setDepartment("");

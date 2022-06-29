@@ -5,8 +5,9 @@ import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box'
 import { Toolbar, Button } from "@mui/material";
 
+import { useAppDispatch, useAppSelector } from "../store/hooks";
 import EmployeeCard from "./EmployeeCard";
-import { EmployeeAPI, EmployeeType } from "../APIs/EmployeeAPI";
+import { getEmployees } from "../store/employeeAPISlice";
 
 const maxDisplayPerPage: number = 10;
 
@@ -31,20 +32,16 @@ function Clamp(value: number, min: number, max: number) {
 };
   
 export default function EmployeesDisplay(){
-  const [employeeList, setEmployeeList] = useState<EmployeeType[]>([]);
+  const dispatch = useAppDispatch();
+  //const [employeeList, setEmployeeList] = useState<EmployeeType[]>([]);
+  const employeeList = useAppSelector(state => state.employeeAPI.data);
   const [currentPage, setCurrentPage] = useState(0);
   const [maxPage, setMaxPage] = useState(0);
   let displayArr = employeeList.slice(currentPage * maxDisplayPerPage, (currentPage+1) * maxDisplayPerPage);
 
   useEffect(() =>{
-    refreshDatabase();  
+    dispatch(getEmployees());
   }, [])
-
-  const refreshDatabase = () => {
-    EmployeeAPI.GetInstance().RefreshDb().then(()=>{
-      setEmployeeList(EmployeeAPI.GetInstance().data);
-    });  
-  }
 
   useEffect(() => {
     setMaxPage(Math.floor((employeeList.length-1)/maxDisplayPerPage));
@@ -67,7 +64,6 @@ export default function EmployeesDisplay(){
         name={employee.name}
         salary={employee.salary}
         department={employee.department}
-        onDbModified={refreshDatabase}
         />
       </EmployeeGrid>
     )

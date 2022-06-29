@@ -1,10 +1,12 @@
 import React, { useState } from "react";
 
 import { styled } from '@mui/material/styles';
-import { Card } from "@mui/material";
+import { Card, IconButton } from "@mui/material";
 import { TextField } from '@mui/material'
 import { Button } from "@mui/material";
 import { UserAPI } from "../APIs/UserAPI";
+import VisibilityIcon from '@mui/icons-material/Visibility';
+import InputAdornment from '@mui/material/InputAdornment';
 
 import { useAppDispatch } from "../store/hooks";
 import { authActions } from "../store/authSlice";
@@ -25,6 +27,7 @@ export default function LogInForm(props: any) {
 
     const [userId, setUserId] = useState("");
     const [password, setPassword] = useState("");
+    const [showPassword, setShowPassword] = useState(false);
 
     function Register() {
         const user = {
@@ -54,7 +57,19 @@ export default function LogInForm(props: any) {
         <h1 style={{textAlign:'center'}}>Log in Form</h1>
         <TextField onChange={(e)=>{setUserId(e.target.value)}} label="User ID" variant='filled' />
 
-        <TextField onChange={(e)=>{setPassword(e.target.value)}} inputProps={{ inputMode: 'numeric', pattern: '[0-9]*' }} label="Password" variant='filled' />
+        <TextField 
+        type={showPassword?'text':'password'} 
+        onChange={(e)=>{setPassword(e.target.value)}} 
+        label="Password" 
+        variant='filled'
+        InputProps={{
+            endAdornment: <InputAdornment position="end">
+                <IconButton onClick={()=>{setShowPassword(!showPassword);}}>
+                    <VisibilityIcon />
+                </IconButton>
+            </InputAdornment>
+          }}
+        />
 
         <Button onClick={Register} style={{backgroundColor: 'orange', color:'white'}}>
         Register

@@ -11,7 +11,8 @@ import IconButton from '@mui/material/IconButton';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 
-import { EmployeeAPI } from "../APIs/EmployeeAPI";
+import { useAppDispatch, useAppSelector } from "../store/hooks";
+import { deleteEmployee } from "../store/employeeAPISlice";
 
 const EmployeeCardStyle = styled(Card)({
     width: '80%',
@@ -53,7 +54,8 @@ const ConfirmationBoxBtnContainer = styled('div')({
   margin :'50px auto auto auto'
 })
 
-export default function EmployeeCard(props: any) { 
+export default function EmployeeCard(props: any) {
+  const dispatch = useAppDispatch();
   const link = "/AddEmployee/" + props.id;
 
   const [open, setOpen] = React.useState(false);
@@ -64,14 +66,9 @@ export default function EmployeeCard(props: any) {
   // const dispatch = useAppDispatch()
 
   function DeleteThisEmployee() {
-    EmployeeAPI.GetInstance().Delete(props.id).then(()=>{
-      props.onDbModified();
+    dispatch(deleteEmployee(props.id)).then(()=>{
       alert("Deleted Successfully");
-      props.onDbModified();
       handleClose();
-    }).catch((err)=>{
-      console.log(err.message);
-      alert(err.message);
     });
   }
 

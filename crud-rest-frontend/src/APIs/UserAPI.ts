@@ -1,13 +1,5 @@
 import axios from "axios";
-import { sign } from "jsonwebtoken";
-
-const privateKey: string = "Hello World";
-//const token = sign({ foo: 'bar' }, privateKey, { algorithm: 'RS256'});
-
-const header = {
-    alg: 'SHA256',
-    typ: 'JWT'
-}
+import { token } from './authentication'
 
 const userAPI = axios.create({baseURL: 'http://localhost:3001/users'});
 export interface UserType {
@@ -28,19 +20,21 @@ export class UserAPI {
     }
 
     public async Register(user: UserType) {
-        return userAPI.post('/Register', user).then((res)=>{
-            console.log("Registration Successful");
-          }).catch((err)=>{
-            console.log("Error reading from database: " + err.message);
-            throw err;
-          })
+
+      return userAPI.post('/Register', user).then((res)=>{
+          console.log("Registration Successful");
+        }).catch((err)=>{
+          console.log("Error reading from database: " + err.message);
+          throw err;
+        })
     }
     public async LogIn(user: UserType) {
-        return userAPI.post('/LogIn', user).then((res)=>{
-            console.log("Login Successful");
-          }).catch((err)=>{
-            console.log("Error reading from database: " + err.message);
-            throw err;
-          })
+      return userAPI.post('/LogIn', user).then((res)=>{
+          token.headers.Authorization = "Basic " + res.data.token;
+          console.log("Login Successful, token received: " + token.headers.Authorization);
+        }).catch((err)=>{
+          console.log("Error reading from database: " + err.message);
+          throw err;
+        })
     }
 }

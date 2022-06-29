@@ -1,4 +1,14 @@
+/*
+
+
+CURRENT NOT IN USED, all axios related calls are in employeeAPISlice under store folder
+
+
+
+*/
+
 import axios from "axios";
+import { token } from './authentication'
 
 const employeeAPI = axios.create({baseURL: 'http://localhost:3001/employees'});
 export interface EmployeeType {
@@ -24,7 +34,7 @@ export class EmployeeAPI {
     }
 
     public async RefreshDb(){
-        return employeeAPI.get('/').then((res)=>{
+        return employeeAPI.get('/', token).then((res)=>{
             console.log("Refreshed Employee Database");
             this._data = res.data;
           }).catch((err)=>{

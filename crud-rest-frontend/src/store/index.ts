@@ -2,12 +2,13 @@ import { configureStore } from "@reduxjs/toolkit";
 
 import confirmationReducer from './confirmationSlice';
 import authReducer from './authSlice'
-
+import employeeAPIReducer from './employeeAPISlice'
 
 const store = configureStore({
     reducer: { 
         confirmation: confirmationReducer,
-        authentication: authReducer
+        authentication: authReducer,
+        employeeAPI: employeeAPIReducer
     }
 });
 
