@@ -2,40 +2,40 @@ import { createSlice, PayloadAction, createAsyncThunk  } from "@reduxjs/toolkit"
 import axios from "axios";
 import { token } from '../APIs/authentication'
 
-const employeeAPI = axios.create({baseURL: 'http://localhost:3001/employees'});
+const employeeAPI = axios.create({baseURL: 'http://localhost:8080/employees'});
 
 export const getEmployee = createAsyncThunk(
     'employee/getEmployee',
     async (employeeId: number, thunkAPI) => {
-        const response = await employeeAPI.get('/' + employeeId);
+        const response = await employeeAPI.get('/' + employeeId, token);
         return response.data;
     },
 )
 export const getEmployees = createAsyncThunk(
     'employee/getEmployees',
     async(thunkAPI) => {
-        const response = await employeeAPI.get('/');
+        const response = await employeeAPI.get('/', token);
         return response.data;
     }
 )
 export const addEmployee = createAsyncThunk(
     'employee/addEmployee',
     async(employee: EmployeeType, thunkAPI) => {
-        const response = await employeeAPI.post('/', employee);
+        const response = await employeeAPI.post('/', employee, token);
         return response.data;
     }
 )
 export const deleteEmployee = createAsyncThunk(
     'employee/deleteEmployee',
     async(employeeId: number, thunkAPI) => {
-        const response = await employeeAPI.delete('/' + employeeId);
+        const response = await employeeAPI.delete('/' + employeeId, token);
         return response.data;
     }
 )
 export const editEmployee = createAsyncThunk(
     'employee/editEmployee',
     async(employee: EmployeeType, thunkAPI) => {
-        const response = await employeeAPI.patch('/' + employee.id, employee);
+        const response = await employeeAPI.patch('/' + employee.id, employee, token);
         return response.data;
     }
 )

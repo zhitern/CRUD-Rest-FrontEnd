@@ -1,7 +1,7 @@
 import axios from "axios";
 import { token } from './authentication'
 
-const userAPI = axios.create({baseURL: 'http://localhost:3001/users'});
+const userAPI = axios.create({baseURL: 'http://localhost:8080/users'});
 export interface UserType {
     userId: string,
     password: string

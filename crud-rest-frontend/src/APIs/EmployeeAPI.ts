@@ -10,7 +10,7 @@ CURRENT NOT IN USED, all axios related calls are in employeeAPISlice under store
 import axios from "axios";
 import { token } from './authentication'
 
-const employeeAPI = axios.create({baseURL: 'http://localhost:3001/employees'});
+const employeeAPI = axios.create({baseURL: 'http://localhost:8080/employees'});
 export interface EmployeeType {
     id: number,
     name: string,

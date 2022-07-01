@@ -55,12 +55,10 @@ export default function EmployeeForm(props: any) {
 
     if (isAdding) {
       dispatch(addEmployee(data));
-      alert("Created Successfully");
     }
     else if (id !== undefined) {//is editting
       data.id = parseInt(id);
       dispatch(editEmployee(data));
-      alert("Editted Successfully");
     }
 
     setIsAdding(true);
